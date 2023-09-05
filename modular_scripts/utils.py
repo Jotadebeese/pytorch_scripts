@@ -75,7 +75,7 @@ def get_data(zip_file_id: str):
     
     # Setup a path to a data folder
     data_path = Path("data/")
-    images_path = data_path / "images_dataset"
+    image_path = data_path / "images_dataset"
 
     # If the data folder doesn't exist, download it and prepare it.
     if images_path.is_dir():
@@ -94,3 +94,5 @@ def get_data(zip_file_id: str):
         zip_ref.extractall(data_path)
         
     os.remove(str(data_path)+"/dataset.zip")
+
+    return image_path
