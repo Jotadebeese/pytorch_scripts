@@ -5,13 +5,6 @@ import torch, os, sys, requests, zipfile
 from pathlib import Path
 from PIL import Image
 
-# Install tqdm to show smart progess meter
-try:
-    from tqdm import tqdm
-except:
-    !pip install tqdm
-    from tqdm import tqdm
-
 def save_model(
     model: torch.nn.Module,
     target_dir: str,
@@ -55,6 +48,13 @@ def image_convertor(path: str, format: str):
         image_convertor(path="data/dataset/cans/",
                         format="jpg")
     """
+    # Install tqdm to show smart progess meter
+    try:
+        from tqdm import tqdm
+    except:
+        !pip install tqdm
+        from tqdm import tqdm
+
     count=0
     path=Path(path)
     for file in tqdm(path.glob("./*")):
