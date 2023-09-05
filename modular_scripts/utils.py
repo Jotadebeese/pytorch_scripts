@@ -48,13 +48,6 @@ def image_convertor(path: str, format: str):
         image_convertor(path="data/dataset/cans/",
                         format="jpg")
     """
-    # Install tqdm to show smart progess meter
-    try:
-        from tqdm import tqdm
-    except:
-        %pip install tqdm
-        from tqdm import tqdm
-
     count=0
     path=Path(path)
     for file in tqdm(path.glob("./*")):
@@ -89,13 +82,6 @@ def get_data(zip_file_id: str):
     else:
         print(f"'{images_path}' does not exist, creating directory...")
         images_path.mkdir(parents=True, exist_ok=True)
-
-    # Download data
-    try:
-        import gdown
-    except:
-        %pip install gdown
-        import gdown
 
     url = 'https://drive.google.com/uc?id='+ zip_file_id
     output = str(data_path)+'/dataset.zip'
