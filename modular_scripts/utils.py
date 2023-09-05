@@ -52,7 +52,7 @@ def image_convertor(path: str, format: str):
     try:
         from tqdm import tqdm
     except:
-        !pip install tqdm
+        %pip install tqdm
         from tqdm import tqdm
 
     count=0
@@ -94,7 +94,7 @@ def get_data(zip_file_id: str):
     try:
         import gdown
     except:
-        !pip install gdown
+        %pip install gdown
         import gdown
 
     url = 'https://drive.google.com/uc?id='+ zip_file_id
