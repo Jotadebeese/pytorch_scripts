@@ -9,6 +9,10 @@ from typing import List, Tuple
 from torchvision import transforms
 import matplotlib.pyplot as plt
 
+# Setup device agnostic code
+device = "cuda" if torch.cuda.is_available() else "cpu"
+device
+
 def save_model(
     model: torch.nn.Module,
     target_dir: str,
