@@ -123,7 +123,7 @@ def pred_and_plot_image(model: torch.nn.Module,
         pred_and_plot_image(model=model, 
                             image_path=image_path,
                             class_names=class_names,
-                            # transform=weights.transforms(), # optionally pass in a specified transform from our pretrained model weights
+                            transform=weights.transforms(), optionally pass in a specified transform from our pretrained model weights
                             image_size=(224, 224))
     """
     # Open Image
