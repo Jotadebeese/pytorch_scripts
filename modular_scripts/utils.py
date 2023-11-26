@@ -9,10 +9,6 @@ from typing import List, Tuple
 from torchvision import transforms
 import matplotlib.pyplot as plt
 
-# Setup device agnostic code
-device = "cuda" if torch.cuda.is_available() else "cpu"
-device
-
 def save_model(
     model: torch.nn.Module,
     target_dir: str,
@@ -109,7 +105,7 @@ def pred_and_plot_image(model: torch.nn.Module,
                         class_names: List[str],
                         image_size: Tuple[int, int] = (224, 224),
                         transform: torchvision.transforms = None,
-                        device: torch.device=device):
+                        device: torch.device):
     """Make a prediction and plot an image using a given model.
     
     Args:
