@@ -72,17 +72,22 @@ def image_convertor(path: str, format: str):
             os.remove(old_file)
     print(f"{count} images converted to '{format}' in '{path}'")
 
-def get_data(zip_file_id: str):
-    """Dowload and extrac data from a Zip file from a Google Drive folder
+def download_data(
+    source: str,
+    destination: str,
+    from_gdrive: bool = False,
+    remove_source: bool = True) -> Path:
+    """Download and extract the data of a Zip file from am external source like GitHub or a Gooogle Drive folder.
     
     Args:
-        zip_file_id: Id of the zip file folder, make sure select sharing
-        to anyone with the link
+        source (str): A link to a zipped file containing data. In case of a Gooogle Drive, provide only the file ID
+        destination (str): name of the folder where you want to save the data
+        remove_source: boolean to remove source file after downloading
     """
     
     # Setup a path to a data folder
     data_path = Path("data/")
-    images_path = data_path / "images_dataset"
+    images_path = data_path / destination
 
     # If the data folder doesn't exist, download it and prepare it.
     if images_path.is_dir():
@@ -91,16 +96,26 @@ def get_data(zip_file_id: str):
         print(f"'{images_path}' does not exist, creating directory...")
         images_path.mkdir(parents=True, exist_ok=True)
 
-    url = 'https://drive.google.com/uc?id='+ zip_file_id
-    output = str(data_path)+'/dataset.zip'
-    gdown.download(url, output, quiet=False)
+    target_file = Path(source).name
+
+    if from_gdrive:
+        url = 'https://drive.google.com/uc?id='+ source
+        output = str(data_path) + '/' + str(target_file)
+        print(f"[INFO] Donwloading {target_file} from https://drive.google.com/uc?id={source}")
+        gdown.download(url, output, quiet=False)
+    else:
+        with open(data_path / target_file, 'wb') as f:
+            res = requests.get(source)
+            print(f"[INFO] Downloading {target_file} from {source}...")
+            f.write(res.content)
 
     # Unzip data
-    with zipfile.ZipFile(data_path / "dataset.zip", "r") as zip_ref:
-        print("Unzipping data...")
-        zip_ref.extractall(data_path)
+    with zipfile.ZipFile(data_path / target_file, "r") as zip_ref:
+        print(f"[INFO] Unzipping {target_file} data...")
+        zip_ref.extractall(image_path)
         
-    os.remove(str(data_path)+"/dataset.zip")
+    if remove_source:
+        os.remove(data_path / target_file)
 
     return images_path
 
