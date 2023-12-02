@@ -44,8 +44,28 @@ def save_model(
     print(f"[INFO] Saving model to: {model_save_path}")
     torch.save(obj=model.state_dict(), f=model_save_path)
 
-def image_convertor(path: str, format: str):
-    """Converts Images from a given path into a given format.
+def bulk_image_convertor(dataset_path: str, format: str ="jpg"):
+    """Converts Images from the labels folders of a given dataset folder into a given format.
+    
+    Args:
+        path: String path of dataset folder
+        format: Format to convert to
+    
+    Example of use:
+        # cans class convertion
+        bulk_image_convertor(path="data/dataset",
+                        format="jpg")
+    """
+    for label in os.listdir(dataset_path):
+        label_path = os.path.join(dataset_path, label)
+
+        # Check if the current item in the dataset path is a directory
+        if os.path.isdir(label_path):
+            # Call image_convertor for the current label folder
+            image_convertor(label_path, format=format)
+
+def image_convertor(path: str, format: str = 'jpg'):
+    """Converts Images from a given folder into a given format.
     
     Args:
         path: String path of the images to convert
