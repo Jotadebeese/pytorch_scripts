@@ -112,7 +112,7 @@ def download_data(
     # Unzip data
     with zipfile.ZipFile(data_path / target_file, "r") as zip_ref:
         print(f"[INFO] Unzipping {target_file} data...")
-        zip_ref.extractall(image_path)
+        zip_ref.extractall(images_path)
         
     if remove_source:
         os.remove(data_path / target_file)
