@@ -10,6 +10,17 @@ from torchvision import transforms
 import matplotlib.pyplot as plt
 import warnings
 
+try:
+    import splitfolders
+except ModuleNotFoundError:
+    import subprocess
+    import sys
+
+    print("[INFO] splitfolders module not found. Installing...")
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'split-folders[full]'])
+    import splitfolders
+
+
 # Setup device agnostic code
 device = "cuda" if torch.cuda.is_available() else "cpu"
 device
@@ -44,6 +55,51 @@ def save_model(
     # Save the model state_dict()
     print(f"[INFO] Saving model to: {model_save_path}")
     torch.save(obj=model.state_dict(), f=model_save_path)
+
+def split_data(input_folder: str, output_folder: str, ratio: tuple = (.8, .1, .1)):
+    """Split data into train, val and test datasets using split-folders: https://github.com/jfilter/split-folders/tree/main
+
+    Args:
+        input_folder: path of the folder with the dataset with the following format:
+                    input/
+                        class1/
+                            img1.jpg
+                            img2.jpg
+                            ...
+                        class2/
+                            imgWhatever.jpg
+                            ...
+                        ...
+        output_folder: path to save the datasets as follows:
+                    output/
+                        train/
+                            class1/
+                                img1.jpg
+                                ...
+                            class2/
+                                imga.jpg
+                                ...
+                        val/
+                            class1/
+                                img2.jpg
+                                ...
+                            class2/
+                                imgb.jpg
+                                ...
+                        test/
+                            class1/
+                                img3.jpg
+                                ...
+                            class2/
+                                imgc.jpg
+                                ...
+        ratio: tuple to specify the ratio to split into train, val and test.
+    
+    Example of use:
+        split_data(input_folder='data/rubbish_dataset', output_folder=data/rubbish_dataset, ratio=(.8, .1, .1))
+    """
+    splitfolders.ratio(input_folder, output=output_folder,
+                        seed=1337, ratio=ratio, group_prefix=None, move=False) # default values
     
 def bulk_image_convertor(dataset_path: str, format: str ="jpg"):
     """Converts Images from the labels folders of a given dataset folder into a given format.
