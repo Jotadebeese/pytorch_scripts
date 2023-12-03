@@ -9,14 +9,6 @@ from typing import List, Tuple
 from torchvision import transforms
 import matplotlib.pyplot as plt
 
-import shutil
-
-try: 
-    import splitfolders
-except:
-    !pip install split-folders[full]
-    import splitfolders
-
 # Setup device agnostic code
 device = "cuda" if torch.cuda.is_available() else "cpu"
 device
