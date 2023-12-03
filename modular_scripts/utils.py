@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 try:
     import splitfolders
 except:
-    print("[INFO] Couldn't find splitfolders, use !pip install split-folders[full] to install split-folers.")
+    warnings.warn("[INFO] Couldn't find splitfolders, if you want to use split_data run !pip install split-folders[full] to install split-folders.")
 
 # Setup device agnostic code
 device = "cuda" if torch.cuda.is_available() else "cpu"
