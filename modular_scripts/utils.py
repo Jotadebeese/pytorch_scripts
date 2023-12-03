@@ -98,9 +98,16 @@ def split_data(input_folder: str, output_folder: str, ratio: tuple = (.8, .1, .1
     Example of use:
         split_data(input_folder='data/rubbish_dataset', output_folder=data/rubbish_dataset, ratio=(.8, .1, .1))
     """
+    # Setup directory path
+    train_dir = output_folder / "train"
+    test_dir = output_folder / "test"
+    val_dir = output_folder / "val"
+
     splitfolders.ratio(input_folder, output=output_folder,
                         seed=1337, ratio=ratio, group_prefix=None, move=False) # default values
     shutil.rmtree(input_folder)
+
+    return train_dir, test_dir, val_dir
     
 def bulk_image_convertor(dataset_path: str, format: str ="jpg"):
     """Converts Images from the labels folders of a given dataset folder into a given format.
