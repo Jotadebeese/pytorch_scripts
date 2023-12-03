@@ -8,7 +8,7 @@ from PIL import Image
 from typing import List, Tuple
 from torchvision import transforms
 import matplotlib.pyplot as plt
-import warnings
+import shutil
 
 try:
     import splitfolders
@@ -100,6 +100,7 @@ def split_data(input_folder: str, output_folder: str, ratio: tuple = (.8, .1, .1
     """
     splitfolders.ratio(input_folder, output=output_folder,
                         seed=1337, ratio=ratio, group_prefix=None, move=False) # default values
+    shutil.rmtree(input_folder)
     
 def bulk_image_convertor(dataset_path: str, format: str ="jpg"):
     """Converts Images from the labels folders of a given dataset folder into a given format.
@@ -189,8 +190,8 @@ def download_data(
     # Unzip data
     with zipfile.ZipFile(data_path / target_file, "r") as zip_ref:
         print(f"[INFO] Unzipping {target_file} data...")
-        zip_ref.extractall(data_path)
-        
+        zip_ref.extractall(images_path)
+    
     if remove_source:
         os.remove(data_path / target_file)
 
