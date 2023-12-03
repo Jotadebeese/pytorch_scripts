@@ -13,7 +13,7 @@ import warnings
 try:
     import splitfolders
 except:
-    print("\033[93m[Warning] Couldn't find\033[0m \033[94msplitfolders\033[0m\033[93m, if you want to use\033[0m \033[94split_data\033[0m \033[93mrun\033[0m  \033[92m!pip install split-folders[full]\033[0m \033[93mto install\033[0m \033[94msplit-folders\033[0m")
+    print("\033[93m[Warning] Couldn't find\033[0m \033[94msplitfolders\033[0m\033[93m, if you want to use\033[0m \033[91msplit_data\033[0m \033[93mrun\033[0m  \033[92m!pip install split-folders[full]\033[0m \033[93mto install\033[0m \033[94msplit-folders\033[0m")
 
 
 # Setup device agnostic code
