@@ -58,7 +58,7 @@ engine.train(model=model,
              loss_fn=loss_fn,
              optimizer=optimizer,
              epochs=NUM_EPOCHS,
-             device=device)
+             device=device) 
 
 # End timer and print total time
 end_time = timer()

@@ -264,3 +264,32 @@ def pred_and_plot_image(model: torch.nn.Module,
     plt.imshow(img)
     plt.title(f"Pred: {class_names[target_image_pred_label]} | Prob: {target_image_pred_probs.max():.3f}")
     plt.axis(False)
+
+def save_image(image, label, index, base_folder):
+    """
+    Saves an image to a given folder.
+
+    Args:
+        image: Image to save
+        label: Label of the image
+        index: Index of the image
+        base_folder: Folder to save the image
+
+    Example of use:
+        sav_image(image, label, index, base_folder)
+    """
+
+    import io
+    import os
+    from PIL import Image
+
+    folder_path = os.path.join(base_folder, str(label))
+    os.makedirs(folder_path, exist_ok=True)
+    file_path = os.path.join(folder_path, f'image_{index}.jpg')
+
+    with io.BytesIO() as output:
+        image.save(output, format="JPEG")
+        image_data = output.getvalue()
+    
+    with open(file_path, 'wb') as f:
+        f.write(image_data)
