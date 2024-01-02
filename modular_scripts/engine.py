@@ -5,6 +5,23 @@ Contains functions for training and testing a PyTorch model.
 import torch
 from tqdm.auto import tqdm
 from typing import Dict, List, Tuple
+from torch.utils.tensorboard import SummaryWriter
+
+def create_writer(experiment_name: str,
+                  model_name: str,
+                  extra: str = None):
+  """Creates a torch.utils.tensorboard.writer.SummaryWriter() instance tracking to a specific log_dir"""
+  from datetime import datetime
+  import os
+
+  timestamp = datetime.now().strftime("%Y-%m-%d")
+
+  if extra:
+    log_dir = os.path.join("runs", timestamp, experiment_name, model_name, extra)
+  else:
+    log_dir = os.path.join("runs", timestamp, experiment_name, model_name)
+  print(f"[INFO] Created SummaryWriter saving to {log_dir}")
+  return SummaryWriter(log_dir=log_dir)
 
 # Defining train_step
 def train_step(
