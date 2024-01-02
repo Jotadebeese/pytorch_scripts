@@ -224,7 +224,7 @@ def train_with_writer(model: torch.nn.Module,
           loss_fn: torch.nn.Module,
           epochs: int,
           device: torch.device,
-          writer: torch.utils.tensorboard.SummaryWriter) -> Dict[str, List]:
+          writer) -> Dict[str, List]:
 
     """Trains and tests a PyTorch model.
 
