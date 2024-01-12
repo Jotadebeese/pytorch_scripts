@@ -169,7 +169,7 @@ def download_data(
         destination (str): name of the folder where you want to save the data
         remove_source: boolean to remove source file after downloading
     """
-    
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-U','--no-cache-dir', 'gdown', '--pre'])
     # Setup a path to a data folder
     data_path = Path("data/")
     images_path = data_path / destination
