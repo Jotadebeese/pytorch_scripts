@@ -169,7 +169,9 @@ def download_data(
         destination (str): name of the folder where you want to save the data
         remove_source: boolean to remove source file after downloading
     """
+    print(f"[INFO] Upgrading gdown from version: {gdown.__vrsion__}, ")
     subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade','--no-cache-dir', 'gdown'])
+    print(f"[INFO] to version: {gdown.__vrsion__}")
     # Setup a path to a data folder
     data_path = Path("data/")
     images_path = data_path / destination
@@ -184,26 +186,14 @@ def download_data(
     target_file = Path(source).name
 
     if from_gdrive:
-        #url = 'https://drive.google.com/uc?id='+ source
-        #output = str(data_path) + '/' + str(target_file)
-        #print(f"[INFO] Donwloading {target_file} from https://drive.google.com/uc?id={source}")
-        #gdown.download(url, output, quiet=False)
-        URL = "https://docs.google.com/uc?export=download"
-
-        session = requests.Session()
-
-        res = session.get(URL, params = { 'id' : source }, stream = True)
-        token = get_confirm_token(res)
-
-        if token:
-            params = { 'id' : source, 'confirm' : token }
-            res = session.get(URL, params = params, stream = True)
-        
-        save_response_content(res, data_path / target_file)
+        url = 'https://drive.google.com/uc?id='+ source
+        output = str(data_path) + '/' + str(target_file)
+        print(f"[INFO] Donwloading {target_file} from https://drive.google.com/uc?id={source}")
+        gdown.download(url, output, quiet=False)
     else:
         with open(data_path / target_file, 'wb') as f:
-            res = requests.get(source)
             print(f"[INFO] Downloading {target_file} from {source}...")
+            res = requests.get(source)
             f.write(res.content)
 
     # Unzip data
@@ -215,21 +205,6 @@ def download_data(
         os.remove(data_path / target_file)
 
     return images_path
-    
-def get_confirm_token(response):
-    for key, value in response.cookies.items():
-        if key.startswith('download_warning'):
-            return value
-
-    return None
-
-def save_response_content(response, destination):
-    CHUNK_SIZE = 32768
-
-    with open(destination, "wb") as f:
-        for chunk in response.iter_content(CHUNK_SIZE):
-            if chunk: # filter out keep-alive new chunks
-                f.write(chunk)
 
 # Plot loss curves of a model
 def plot_loss_curves(results):
