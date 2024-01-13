@@ -169,9 +169,6 @@ def download_data(
         destination (str): name of the folder where you want to save the data
         remove_source: boolean to remove source file after downloading
     """
-    print(f"[INFO] Upgrading gdown from version: {gdown.__version__}, ")
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade','--no-cache-dir', 'gdown'])
-    print(f"[INFO] to version: {gdown.__version__}")
     # Setup a path to a data folder
     data_path = Path("data/")
     images_path = data_path / destination
@@ -186,6 +183,9 @@ def download_data(
     target_file = Path(source).name
 
     if from_gdrive:
+        print(f"[INFO] Upgrading gdown from version: {gdown.__version__}, ")
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade','--no-cache-dir', 'gdown'])
+        print(f"[INFO] to version: {gdown.__version__}")
         url = 'https://drive.google.com/uc?id='+ source + '&confirm=t'
         output = str(data_path) + '/' + str(target_file)
         print(f"[INFO] Donwloading {target_file} from https://drive.google.com/uc?id={source}")
